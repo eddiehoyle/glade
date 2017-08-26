@@ -14,12 +14,24 @@ class Plugin(object):
         self.vendor = cmds.pluginInfo(self.name, query=True, vendor=True)
         self.version = cmds.pluginInfo(self.name, query=True, version=True)
         self.for_api_version = cmds.pluginInfo(self.name, query=True, apiVersion=True)
-        self.autoload = cmds.pluginInfo(self.name, query=True, autoload=True)
+        self.is_autoload = cmds.pluginInfo(self.name, query=True, autoload=True)
         self.is_loaded = cmds.pluginInfo(self.name, query=True, loaded=True)
-        self.commands = cmds.pluginInfo(self.name, query=True, command=True)
+        self.commands = cmds.pluginInfo(self.name, query=True, command=True) or []
 
     def __str__(self):
         return self.name
 
     def __repr__(self):
         return self.name
+
+    def data(self):
+        return {
+            # "name": str(self.name),
+            # "path": str(self.path),
+            "vendor": str(self.vendor),
+            # "version": str(self.version),
+            # "for_api_version": str(self.for_api_version),
+            # "is_autoload": str(self.is_autoload),
+            # "is_loaded": str(self.is_loaded),
+            "commands": str(self.commands),
+        }

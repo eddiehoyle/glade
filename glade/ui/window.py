@@ -1,11 +1,16 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
 
+import os
+
+from glade import api
+
 from .search import PluginSearch
 from .refresh import PluginRefresh
 from .view.list import PluginList
 from .view.item import PluginItem
 from .view.item import PluginWidget
+
 
 class PluginManagerWindow(QMainWindow):
 
@@ -17,29 +22,43 @@ class PluginManagerWindow(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
-        self.search = PluginSearch()
-        self.refresh = PluginRefresh()
+        self.search_field = PluginSearch()
+        self.refresh_button = PluginRefresh()
+        self.refresh_button.clicked.connect(self.refresh)
+
         self.list = PluginList()
 
+        scroll = QScrollArea()
+        scroll.setWidget(self.list)
+        scroll.setWidgetResizable(True)
+        scroll.setStyleSheet("""
+            QScrollArea {
+                 border: none;
+            }"""
+        )
+
         search_layout = QHBoxLayout()
-        search_layout.addWidget(self.search)
-        search_layout.addWidget(self.refresh)
+        search_layout.addWidget(self.search_field)
+        search_layout.addWidget(self.refresh_button)
 
         layout.addLayout(search_layout)
-        layout.addWidget(self.list)
+        layout.addWidget(scroll)
 
-        self._add()
+        self.refresh()
 
-    def _add(self):
+        self.setMinimumWidth(self.sizeHint().width())
 
-        for index in range(5):
+    @Slot()
+    def refresh(self):
 
-            widget = PluginWidget("Item: %s" % index)
-            item = PluginItem()
-            item.setSizeHint(widget.sizeHint())
+        plugins = api.get_all_plugins()
 
-            self.list.addItem(item)
-            self.list.setItemWidget(item, widget)
+        directories = {os.path.dirname(p.path) for p in plugins}
+        print directories
+        # for plugin in plugins[:3]:
+        #     self.list.add(plugin)
+        # self.list.layout.addStretch()
+
 
 
 
