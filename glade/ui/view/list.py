@@ -1,6 +1,7 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
 from collections import defaultdict
+import os
 from . import item
 from glade.ui import utils
 
@@ -14,18 +15,26 @@ class PluginList(QWidget):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
-        utils.randombg(self)
+        # utils.randombg(self)
 
         self.sections = {}
 
-    def add_section(self, directory):
-        section = PluginSectionWidget(directory)
-        self.sections[directory] = []
+    def add_plugin(self, plugin):
 
-    def add_plugin(self, directory, plugin):
-        self.sections[section].append(plugin)
-        widget = item.PluginWidget(plugin)
-        self.layout.addWidget(widget)
+
+        directory = os.path.dirname(plugin.path)
+        section = self.sections.get(directory, None)
+        if section is None:
+            section = item.PluginSectionWidget(directory)
+            self.layout.addWidget(section)
+            self.sections[directory] = section
+
+        section.add_plugin(plugin)
+
+        # widget = item.PluginWidget(plugin)
+        # section = self.sections[directory]
+        # section.addWidget(widget)
+        # self.layout.addWidget(widget)
 
     def clear(self):
         pass

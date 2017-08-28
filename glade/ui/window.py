@@ -54,10 +54,9 @@ class PluginManagerWindow(QMainWindow):
         plugins = api.get_all_plugins()
 
         directories = {os.path.dirname(p.path) for p in plugins}
-        print directories
-        # for plugin in plugins[:3]:
-        #     self.list.add(plugin)
-        # self.list.layout.addStretch()
+        for plugin in plugins:
+            self.list.add_plugin(plugin)
+        self.list.layout.addStretch()
 
 
 
