@@ -8,7 +8,6 @@ from glade import api
 from .search import PluginSearch
 from .refresh import PluginRefresh
 from .view.list import PluginList
-from .view.item import PluginItem
 from .view.item import PluginWidget
 
 
@@ -22,6 +21,7 @@ class PluginManagerWindow(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
+        search_label = QLabel("Search")
         self.search_field = PluginSearch()
         self.refresh_button = PluginRefresh()
         self.refresh_button.clicked.connect(self.refresh)
@@ -38,11 +38,16 @@ class PluginManagerWindow(QMainWindow):
         )
 
         search_layout = QHBoxLayout()
+        search_layout.addWidget(search_label)
         search_layout.addWidget(self.search_field)
         search_layout.addWidget(self.refresh_button)
 
+        self.close_button = QPushButton("Close")
+        self.close_button.clicked.connect(self.close)
+
         layout.addLayout(search_layout)
         layout.addWidget(scroll)
+        layout.addWidget(self.close_button)
 
         self.refresh()
 
@@ -54,10 +59,11 @@ class PluginManagerWindow(QMainWindow):
         plugins = api.get_all_plugins()
 
         directories = {os.path.dirname(p.path) for p in plugins}
+
+        for plugin in plugins:
+            self.list.add_section(os.path.dirname(plugin.path))
         for plugin in plugins:
             self.list.add_plugin(plugin)
         self.list.layout.addStretch()
-
-
 
 

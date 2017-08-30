@@ -12,17 +12,36 @@ class AbstractHeaderWidget(QWidget):
 
         self.is_expanded = True
 
+    def setExpanded(self, state):
+        """"""
+        self.expand.emit(state)
+        self.is_expanded = state
+
     def mouseMoveEvent(self, event):
         super(AbstractHeaderWidget, self).mouseMoveEvent(event)
 
     def mousePressEvent(self, event):
         super(AbstractHeaderWidget, self).mousePressEvent(event)
-        state = not self.is_expanded
-        self.expand.emit(state)
-        self.is_expanded = state
+        self.setExpanded(not self.is_expanded)
 
     def mouseReleaseEvent(self, event):
         super(AbstractHeaderWidget, self).mouseReleaseEvent(event)
+
+
+class AbstractBodyWidget(QWidget):
+
+    expand = Signal(bool)
+
+    def __init__(self, parent=None):
+        super(AbstractBodyWidget, self).__init__(parent=parent)
+
+class PluginSectionBodyWidget(AbstractBodyWidget):
+
+    expand = Signal(bool)
+    
+    def __init__(self, directory, parent=None):
+        super(PluginSectionBodyWidget, self).__init__(parent=parent)
+
 
 class PluginSectionHeaderWidget(AbstractHeaderWidget):
 
@@ -34,32 +53,46 @@ class PluginSectionHeaderWidget(AbstractHeaderWidget):
         layout = QHBoxLayout()
         self.setLayout(layout)
 
-        # p.scaled(w,h,Qt::KeepAspectRatio));
         pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/plus.png")
+        pix.rect()
         pix_label = QLabel()
-        pix_label.setPixmap(pix.scaled(14, 14, Qt.KeepAspectRatio))
+        pix_label.setPixmap(pix.scaled(10, 10, Qt.KeepAspectRatio))
 
         label = QLabel(directory)
         label.setText(directory)
         layout.addWidget(pix_label)
         layout.addWidget(label)
         layout.addStretch()
+        layout.setContentsMargins(5,5,5,5)
+        layout.setSpacing(0)
 
         self.setMouseTracking(True)
 
-        self.is_expanded = True
 
     def mouseMoveEvent(self, event):
         super(PluginSectionHeaderWidget, self).mouseMoveEvent(event)
+        utils.colorbg(self, "#444444")
 
     def mousePressEvent(self, event):
         super(PluginSectionHeaderWidget, self).mousePressEvent(event)
-        utils.colorbg(self, "#444444")
+        utils.colorbg(self, "#222222")
 
     def mouseReleaseEvent(self, event):
         super(PluginSectionHeaderWidget, self).mouseReleaseEvent(event)
-        utils.colorbg(self, "#333333")
+        utils.colorbg(self, "#444444")
 
+
+class PluginSectionBodyWidget(QWidget):
+
+    def __init__(self, directory, parent=None):
+        super(PluginSectionBodyWidget, self).__init__(parent=parent)
+
+        layout = QVBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
+
+        utils.colorbg(self, "#222222")
 
 class PluginSectionWidget(QWidget):
 
@@ -75,21 +108,14 @@ class PluginSectionWidget(QWidget):
 
         self.header_widget = PluginSectionHeaderWidget(directory)
         self.header_widget.expand.connect(self.expand)
-
-        self.body_layout = QVBoxLayout()
-        self.body_layout.setSpacing(0)
-        self.body_layout.setContentsMargins(0, 0, 0, 0)
-        self.body_widget = QWidget()
-        self.body_widget.setLayout(self.body_layout)
+        self.body_widget = PluginSectionBodyWidget(directory)
 
         self.layout.addWidget(self.header_widget)
         self.layout.addWidget(self.body_widget)
 
-        self.is_expanded = True
-        colorbg(self, "#333333")
-
         self.plugins = []
 
+        self.header_widget.setExpanded(False)
 
     @Slot(bool)
     def expand(self, state):
@@ -99,7 +125,7 @@ class PluginSectionWidget(QWidget):
     def add_plugin(self, plugin):
         widget = PluginWidget(plugin)
         self.plugins.append(widget)
-        self.body_layout.addWidget(widget)
+        self.body_widget.layout().addWidget(widget)
 
     def mouseMoveEvent(self, event):
         super(PluginSectionWidget, self).mouseMoveEvent(event)
@@ -130,6 +156,7 @@ class PluginHeaderWidget(AbstractHeaderWidget):
         header_layout.addWidget(self.load_checkbox)
         header_layout.addWidget(self.autoload_label)
         header_layout.addWidget(self.autoload_checkbox)
+        header_layout.setContentsMargins(5, 5, 5, 5)
         self.setLayout(header_layout)
 
         self.is_expanded = True
@@ -137,9 +164,7 @@ class PluginHeaderWidget(AbstractHeaderWidget):
 
         self.initialise()
 
-        self.setFixedHeight(self.sizeHint().height())
-
-        colorbg(self,  "#123512")
+        utils.colorbg(self,  "#123512")
 
     def initialise(self):
         self.name_label.setText(self.plugin.name)
@@ -163,7 +188,7 @@ class PluginBodyWidget(QWidget):
         self.plugin = plugin
 
         layout = QFormLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(2, 2, 2, 2)
         self.setLayout(layout)
 
         self.initialise()
@@ -182,7 +207,6 @@ class PluginWidget(QWidget):
     def __init__(self, plugin, parent=None):
         super(PluginWidget, self).__init__(parent=parent)
 
-
         self.plugin = plugin
 
         layout = QVBoxLayout()
@@ -195,8 +219,11 @@ class PluginWidget(QWidget):
         layout.addWidget(self.header_widget)
         layout.addWidget(self.body_widget)
 
-        colorbg(self,  "#747321")
+        utils.colorbg(self,  "#747321")
         layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+
+        self.header_widget.setExpanded(False)
         
     @Slot(bool)
     def expand(self, state):

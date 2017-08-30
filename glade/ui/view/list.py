@@ -15,26 +15,28 @@ class PluginList(QWidget):
 
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
-        # utils.randombg(self)
 
         self.sections = {}
 
-    def add_plugin(self, plugin):
+    def add_section(self, directory):
+        """"""
 
-
-        directory = os.path.dirname(plugin.path)
         section = self.sections.get(directory, None)
         if section is None:
             section = item.PluginSectionWidget(directory)
             self.layout.addWidget(section)
             self.sections[directory] = section
+        return section
 
-        section.add_plugin(plugin)
-
-        # widget = item.PluginWidget(plugin)
-        # section = self.sections[directory]
-        # section.addWidget(widget)
-        # self.layout.addWidget(widget)
+    def add_plugin(self, plugin):
+        """"""
+        directory = os.path.dirname(plugin.path)
+        section = self.add_section(directory)
+        return section.add_plugin(plugin)
 
     def clear(self):
-        pass
+        """"""
+        print "clear"
+        for directory, section in self.sections.iteritems():
+            section.deleteLater()
+        self.sections = {}
