@@ -12,6 +12,7 @@ class AbstractHeaderWidget(QWidget):
 
         self.is_expanded = True
 
+
     def setExpanded(self, state):
         """"""
         self.expand.emit(state)
@@ -34,13 +35,6 @@ class AbstractBodyWidget(QWidget):
 
     def __init__(self, parent=None):
         super(AbstractBodyWidget, self).__init__(parent=parent)
-
-class PluginSectionBodyWidget(AbstractBodyWidget):
-
-    expand = Signal(bool)
-    
-    def __init__(self, directory, parent=None):
-        super(PluginSectionBodyWidget, self).__init__(parent=parent)
 
 
 class PluginSectionHeaderWidget(AbstractHeaderWidget):
@@ -71,16 +65,14 @@ class PluginSectionHeaderWidget(AbstractHeaderWidget):
 
     def mouseMoveEvent(self, event):
         super(PluginSectionHeaderWidget, self).mouseMoveEvent(event)
-        utils.colorbg(self, "#444444")
 
     def mousePressEvent(self, event):
         super(PluginSectionHeaderWidget, self).mousePressEvent(event)
-        utils.colorbg(self, "#222222")
+        # utils.colorbg(self, "#222222")
 
     def mouseReleaseEvent(self, event):
         super(PluginSectionHeaderWidget, self).mouseReleaseEvent(event)
-        utils.colorbg(self, "#444444")
-
+        # utils.colorbg(self, "#444444")
 
 class PluginSectionBodyWidget(QWidget):
 
@@ -92,7 +84,7 @@ class PluginSectionBodyWidget(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
-        utils.colorbg(self, "#222222")
+        # utils.colorbg(self, "#222222")
 
 class PluginSectionWidget(QWidget):
 
@@ -108,12 +100,15 @@ class PluginSectionWidget(QWidget):
 
         self.header_widget = PluginSectionHeaderWidget(directory)
         self.header_widget.expand.connect(self.expand)
+
         self.body_widget = PluginSectionBodyWidget(directory)
 
         self.layout.addWidget(self.header_widget)
         self.layout.addWidget(self.body_widget)
 
         self.plugins = []
+
+
 
         self.header_widget.setExpanded(False)
 
@@ -213,17 +208,17 @@ class PluginWidget(QWidget):
         self.setLayout(layout)
 
         self.header_widget = PluginHeaderWidget(plugin)
-        self.body_widget = PluginBodyWidget(plugin)
         self.header_widget.expand.connect(self.expand)
+        self.body_widget = PluginBodyWidget(plugin)
 
         layout.addWidget(self.header_widget)
         layout.addWidget(self.body_widget)
 
-        utils.colorbg(self,  "#747321")
+        # utils.colorbg(self,  "#747321")
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
 
-        self.header_widget.setExpanded(False)
+        # self.header_widget.setExpanded(False)
         
     @Slot(bool)
     def expand(self, state):
