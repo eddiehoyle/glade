@@ -3,7 +3,18 @@ from PySide.QtGui import *
 
 from glade.ui import utils
 
-class AbstractHeaderWidget(QWidget):
+
+class AbstractFilterableWidget(QWidget):
+
+    def __init__(self, parent=None):
+        super(AbstractFilterableWidget, self).__init__(parent=parent)
+
+    def filter(self, terms):
+        """"""
+        print "filtering:", terms
+
+
+class AbstractHeaderWidget(AbstractFilterableWidget):
 
     expand = Signal(bool)
 
@@ -11,7 +22,6 @@ class AbstractHeaderWidget(QWidget):
         super(AbstractHeaderWidget, self).__init__(parent=parent)
 
         self.is_expanded = True
-
 
     def setExpanded(self, state):
         """"""
@@ -29,7 +39,7 @@ class AbstractHeaderWidget(QWidget):
         super(AbstractHeaderWidget, self).mouseReleaseEvent(event)
 
 
-class AbstractBodyWidget(QWidget):
+class AbstractBodyWidget(AbstractFilterableWidget):
 
     expand = Signal(bool)
 
@@ -62,6 +72,7 @@ class PluginSectionHeaderWidget(AbstractHeaderWidget):
 
         self.setMouseTracking(True)
 
+        utils.colorbg(self, "#444444")
 
     def mouseMoveEvent(self, event):
         super(PluginSectionHeaderWidget, self).mouseMoveEvent(event)
@@ -74,7 +85,7 @@ class PluginSectionHeaderWidget(AbstractHeaderWidget):
         super(PluginSectionHeaderWidget, self).mouseReleaseEvent(event)
         # utils.colorbg(self, "#444444")
 
-class PluginSectionBodyWidget(QWidget):
+class PluginSectionBodyWidget(AbstractBodyWidget):
 
     def __init__(self, directory, parent=None):
         super(PluginSectionBodyWidget, self).__init__(parent=parent)
@@ -86,7 +97,7 @@ class PluginSectionBodyWidget(QWidget):
 
         # utils.colorbg(self, "#222222")
 
-class PluginSectionWidget(QWidget):
+class PluginSectionWidget(AbstractFilterableWidget):
 
     def __init__(self, directory, parent=None):
         super(PluginSectionWidget, self).__init__(parent=parent)
@@ -108,9 +119,12 @@ class PluginSectionWidget(QWidget):
 
         self.plugins = []
 
-
-
         self.header_widget.setExpanded(False)
+
+    def filter(self, terms):
+        """"""
+        self.header_widget.filter(terms)
+        self.body_widget.filter(terms)
 
     @Slot(bool)
     def expand(self, state):
@@ -175,7 +189,7 @@ class PluginHeaderWidget(AbstractHeaderWidget):
     def mouseReleaseEvent(self, event):
         super(PluginHeaderWidget, self).mouseReleaseEvent(event)
 
-class PluginBodyWidget(QWidget):
+class PluginBodyWidget(AbstractBodyWidget):
 
     def __init__(self, plugin, parent=None):
         super(PluginBodyWidget, self).__init__(parent=parent)
@@ -197,7 +211,7 @@ class PluginBodyWidget(QWidget):
 
 
 
-class PluginWidget(QWidget):
+class PluginWidget(AbstractFilterableWidget):
 
     def __init__(self, plugin, parent=None):
         super(PluginWidget, self).__init__(parent=parent)
@@ -218,7 +232,12 @@ class PluginWidget(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
 
-        # self.header_widget.setExpanded(False)
+        self.header_widget.setExpanded(False)
+
+    def filter(self, terms):
+        """"""
+        self.header_widget.filter(terms)
+        self.body_widget.filter(terms)
         
     @Slot(bool)
     def expand(self, state):

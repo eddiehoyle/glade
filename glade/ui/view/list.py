@@ -18,6 +18,11 @@ class PluginList(QWidget):
 
         self.sections = {}
 
+    def filter(self, terms):
+        """"""
+        for directory, section in self.sections.iteritems():
+            section.filter(terms)
+
     def add_section(self, directory):
         """"""
 
