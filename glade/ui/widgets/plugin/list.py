@@ -1,9 +1,8 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
-from collections import defaultdict
 import os
-from . import item
 from glade.ui import utils
+from .section import PluginSectionWidget
 
 class PluginList(QWidget):
 
@@ -23,12 +22,12 @@ class PluginList(QWidget):
         for directory, section in self.sections.iteritems():
             section.filter(terms)
 
-    def add_section(self, directory):
+    def __add_section(self, directory):
         """"""
 
         section = self.sections.get(directory, None)
         if section is None:
-            section = item.PluginSectionWidget(directory)
+            section = PluginSectionWidget(directory)
             self.layout.addWidget(section)
             self.sections[directory] = section
         return section
@@ -36,12 +35,11 @@ class PluginList(QWidget):
     def add_plugin(self, plugin):
         """"""
         directory = os.path.dirname(plugin.path)
-        section = self.add_section(directory)
+        section = self.__add_section(directory)
         return section.add_plugin(plugin)
 
     def clear(self):
         """"""
-        print "clear"
         for directory, section in self.sections.iteritems():
             section.deleteLater()
         self.sections = {}
