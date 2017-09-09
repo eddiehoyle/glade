@@ -29,9 +29,9 @@ class Plugin(object):
             # "name": str(self.name),
             # "path": str(self.path),
             "vendor": str(self.vendor),
-            # "version": str(self.version),
-            # "for_api_version": str(self.for_api_version),
+            "version": str(self.version),
+            "for_api_version": str(self.for_api_version),
             # "is_autoload": str(self.is_autoload),
             # "is_loaded": str(self.is_loaded),
-            "commands": str(self.commands),
+            "commands": ", ".join(self.commands),
         }

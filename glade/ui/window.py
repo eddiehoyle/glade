@@ -33,6 +33,7 @@ class PluginManagerWindow(QMainWindow):
         scroll = QScrollArea()
         scroll.setWidget(self.list)
         scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame);
         scroll.setObjectName("pluginScroll")
 
         footer_layout = QHBoxLayout()

@@ -107,7 +107,7 @@ class PluginSectionWidget(QWidget):
 
         self.plugins = []
 
-        self.header_widget.setExpanded(False)
+        self.header_widget.setExpanded(True)
 
     @Slot(bool)
     def expand(self, state):
