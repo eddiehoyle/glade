@@ -26,9 +26,9 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
 
         self.label = QLabel(directory)
         self.label.setText(directory)
-        layout.addWidget(pix_label)
         layout.addWidget(self.label)
         layout.addStretch()
+        layout.addWidget(pix_label)
         layout.setContentsMargins(
             style.PluginSectionStyle.HEADER_MARGIN,
             style.PluginSectionStyle.HEADER_MARGIN,
@@ -58,11 +58,9 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
 
     def mousePressEvent(self, event):
         super(PluginSectionHeaderWidget, self).mousePressEvent(event)
-        # utils.colorbg(self, "#222222")
 
     def mouseReleaseEvent(self, event):
         super(PluginSectionHeaderWidget, self).mouseReleaseEvent(event)
-        # utils.colorbg(self, "#444444")
 
 class PluginSectionBodyWidget(AbstractPluginBodyWidget):
 
@@ -107,7 +105,7 @@ class PluginSectionWidget(QWidget):
 
         self.plugins = []
 
-        self.header_widget.setExpanded(True)
+        # self.header_widget.set_expanded(False)
 
     @Slot(bool)
     def expand(self, state):
@@ -120,9 +118,11 @@ class PluginSectionWidget(QWidget):
 
         # TODO: Improve this
         if len(self.plugins) % 2 == 0:
-            utils.colorbg(widget.header_widget, "#111111")
+            utils.colorbg(widget.header_widget, "#3A3430")
+            utils.colorbg(widget.body_widget, "#2A2A2A")
         else:
-            utils.colorbg(widget.header_widget, "#222222")
+            utils.colorbg(widget.header_widget, "#513533")
+            utils.colorbg(widget.body_widget, "#2A2A2A")
 
     def filter(self, terms):
         self.header_widget.filter(terms)

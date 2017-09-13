@@ -10,7 +10,7 @@ class AbstractPluginHeaderWidget(QWidget):
 
         self.is_expanded = True
 
-    def setExpanded(self, state):
+    def set_expanded(self, state):
         self.expand.emit(state)
         self.is_expanded = state
 
@@ -19,7 +19,7 @@ class AbstractPluginHeaderWidget(QWidget):
 
     def mousePressEvent(self, event):
         super(AbstractPluginHeaderWidget, self).mousePressEvent(event)
-        self.setExpanded(not self.is_expanded)
+        self.set_expanded(not self.is_expanded)
 
     def mouseReleaseEvent(self, event):
         super(AbstractPluginHeaderWidget, self).mouseReleaseEvent(event)

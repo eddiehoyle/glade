@@ -15,18 +15,28 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
         self.plugin = plugin
 
         self.name_label = QLabel(plugin.name)
-        self.load_label = QLabel("Load")
-        self.load_checkbox = QCheckBox()
-        self.autoload_label = QLabel("Autoload")
-        self.autoload_checkbox = QCheckBox()
+        # self.load_label = QLabel("Load")
+        # self.load_checkbox = QCheckBox()
+        # self.autoload_label = QLabel("Autoload")
+        # self.autoload_checkbox = QCheckBox()
 
-        pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/plus.png")
-        icon = QIcon()
-        icon.addPixmap(pix.scaled(10, 10, Qt.KeepAspectRatio))
-        self.load_button = QPushButton(icon, "L")
+        pix_load = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/disk.png")
+        icon_load = QIcon()
+        icon_load.addPixmap(pix_load.scaled(10, 10, Qt.KeepAspectRatio))
+        self.load_button = QPushButton("Load")
+        self.load_button.setIcon(icon_load)
         self.load_button.setStyleSheet("QPushButton { padding:0; }")
-        self.autoload_button = QPushButton(icon, "A")
+        self.load_button.setCheckable(True)
+
+        pix_autoload = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/disk2.png")
+        icon_autoload = QIcon()
+        icon_autoload.addPixmap(pix_autoload.scaled(10, 10, Qt.KeepAspectRatio))
+        self.autoload_button = QPushButton("Autoload")
+        self.autoload_button.setIcon(icon_autoload)
         self.autoload_button.setStyleSheet("QPushButton { padding:0; }")
+        self.autoload_button.setCheckable(True)
+
+        spacer = QSpacerItem(2, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         layout = QHBoxLayout()
         layout.setContentsMargins(
@@ -45,6 +55,7 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
         # layout.addWidget(self.autoload_label)
         # layout.addWidget(self.autoload_checkbox)
         layout.addWidget(self.load_button)
+        layout.addItem(spacer)
         layout.addWidget(self.autoload_button)
 
         self.is_expanded = True
@@ -54,13 +65,17 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
         utils.colorbg(self,  "#123512")
 
+    def set_expanded(self, state):
+        super(PluginHeaderWidget, self).set_expanded(state)
+        print 'set_expanded()', state
+
     def highlight(self, chars):
         pass
 
     def initialise(self):
         self.name_label.setText(self.plugin.name)
-        self.load_checkbox.setChecked(self.plugin.is_loaded)
-        self.autoload_checkbox.setChecked(self.plugin.is_autoload)
+        self.load_button.setChecked(self.plugin.is_loaded)
+        self.autoload_button.setChecked(self.plugin.is_autoload)
 
     def mouseMoveEvent(self, event):
         super(PluginHeaderWidget, self).mouseMoveEvent(event)
@@ -96,15 +111,14 @@ class PluginBodyWidget(AbstractPluginBodyWidget):
         for key, value in self.plugin.data().iteritems():
             edit = QLineEdit()
             edit.setText(value)
-            # utils.colorbg(edit, "#234512")
-            # edit.setFixedHeight(80)
+            utils.colorbg(edit, "#222222")
             edit.setStyleSheet(
 """QLineEdit {
     border: none;
     padding: 2;
+    background: rgb(32, 32, 32);
 }
 """)
-            # edit.setAlignment(Qt.AlignCenter)
             self.layout().addRow(key, edit)
 
 
@@ -132,14 +146,10 @@ class PluginItemWidget(QWidget):
         layout.addWidget(self.header_widget)
         layout.addWidget(self.body_widget)
 
-        self.header_widget.setExpanded(False)
-
-    def filter(self, terms):
-        """"""
-        self.header_widget.filter(terms)
-        self.body_widget.filter(terms)
+        # self.header_widget.set_expanded(False)
 
     @Slot(bool)
     def expand(self, state):
         """"""
         self.body_widget.setVisible(state)
+

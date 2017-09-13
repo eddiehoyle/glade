@@ -22,3 +22,4 @@ class PluginSectionStyle(AbstractPluginStyle):
     SPACING = 0
 
     BODY_MARGIN = 0
+    HEADER_MARGIN = 8
