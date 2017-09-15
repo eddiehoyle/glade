@@ -67,7 +67,6 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
     def set_expanded(self, state):
         super(PluginHeaderWidget, self).set_expanded(state)
-        print 'set_expanded()', state
 
     def highlight(self, chars):
         pass
@@ -145,8 +144,11 @@ class PluginItemWidget(QWidget):
 
         layout.addWidget(self.header_widget)
         layout.addWidget(self.body_widget)
+        layout.addStretch()
 
-        # self.header_widget.set_expanded(False)
+        self.header_widget.set_expanded(False)
+
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed))
 
     @Slot(bool)
     def expand(self, state):

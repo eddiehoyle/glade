@@ -4,7 +4,7 @@ import os
 from glade.ui import utils
 from .section import PluginSectionWidget
 
-class PluginList(QWidget):
+class PluginList(QFrame):
 
     def __init__(self, parent=None):
         super(PluginList, self).__init__(parent=parent)

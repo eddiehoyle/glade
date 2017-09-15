@@ -19,16 +19,15 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
         layout = QHBoxLayout()
         self.setLayout(layout)
 
-        pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/plus.png")
-        pix.rect()
-        pix_label = QLabel()
-        pix_label.setPixmap(pix.scaled(10, 10, Qt.KeepAspectRatio))
+        pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/arrow_left.png")
+        self.arrow_label = QLabel()
+        self.arrow_label.setPixmap(pix.scaled(16, 16, Qt.KeepAspectRatio))
 
         self.label = QLabel(directory)
         self.label.setText(directory)
         layout.addWidget(self.label)
         layout.addStretch()
-        layout.addWidget(pix_label)
+        layout.addWidget(self.arrow_label)
         layout.setContentsMargins(
             style.PluginSectionStyle.HEADER_MARGIN,
             style.PluginSectionStyle.HEADER_MARGIN,
@@ -38,8 +37,18 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
         layout.setSpacing(style.PluginSectionStyle.HEADER_SPACING)
 
         self.setMouseTracking(True)
+        self.expand.connect(self.__update_icon)
 
         utils.colorbg(self, "#444444")
+
+    def __update_icon(self):
+        if self.is_expanded:
+            path = "/Users/eddiehoyle/Code/python/glade/icons/arrow_down.png"
+        else:
+            path = "/Users/eddiehoyle/Code/python/glade/icons/arrow_left.png"
+
+        pix = QPixmap(path)
+        self.arrow_label.setPixmap(pix.scaled(16, 16, Qt.KeepAspectRatio))
 
     def highlight(self, chars):
 
@@ -105,7 +114,7 @@ class PluginSectionWidget(QWidget):
 
         self.plugins = []
 
-        # self.header_widget.set_expanded(False)
+        self.header_widget.set_expanded(False)
 
     @Slot(bool)
     def expand(self, state):

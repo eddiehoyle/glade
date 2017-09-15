@@ -8,7 +8,7 @@ class AbstractPluginHeaderWidget(QWidget):
     def __init__(self, parent=None):
         super(AbstractPluginHeaderWidget, self).__init__(parent=parent)
 
-        self.is_expanded = True
+        self.is_expanded = False
 
     def set_expanded(self, state):
         self.expand.emit(state)
