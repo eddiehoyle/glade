@@ -1,0 +1,19 @@
+QFrame#sectionHeader {
+    background-color: "blue";
+    margin: 0px;
+    padding: 5px;
+}
+QFrame#sectionBody {
+    background-color: "blue";
+    margin: 0px;
+    padding: 5px;
+}
+QPushButton {
+    background-color: red;
+}
+QScrollArea {
+    background-color: orange;
+}
+QLineEdit {
+    background-color: green;
+}

@@ -31,10 +31,10 @@ class PluginList(QFrame):
             self.layout.addWidget(section)
             self.sections[directory] = section
 
-            if len(self.sections) % 2 == 0:
-                utils.colorbg(section.header_widget, "#373F35")
-            else:
-                utils.colorbg(section.header_widget, "#425142")
+            # if len(self.sections) % 2 == 0:
+            #     utils.colorbg(section.header_widget, "#373F35")
+            # else:
+            #     utils.colorbg(section.header_widget, "#425142")
         return section
 
     def add_plugin(self, plugin):

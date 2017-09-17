@@ -36,10 +36,13 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
         )
         layout.setSpacing(style.PluginSectionStyle.HEADER_SPACING)
 
+        self.setObjectName("sectionHeader")
+
+
         self.setMouseTracking(True)
         self.expand.connect(self.__update_icon)
 
-        utils.colorbg(self, "#444444")
+        # utils.colorbg(self, "#444444")
 
     def __update_icon(self):
         if self.is_expanded:
@@ -85,6 +88,8 @@ class PluginSectionBodyWidget(AbstractPluginBodyWidget):
         )
         layout.setSpacing(style.PluginSectionStyle.BODY_SPACING)
         self.setLayout(layout)
+
+        self.setObjectName("sectionBody")
 
 
 class PluginSectionWidget(QWidget):

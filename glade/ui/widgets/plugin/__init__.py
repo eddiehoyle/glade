@@ -1,7 +1,7 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
 
-class AbstractPluginHeaderWidget(QWidget):
+class AbstractPluginHeaderWidget(QFrame):
 
     expand = Signal(bool)
 
@@ -24,8 +24,7 @@ class AbstractPluginHeaderWidget(QWidget):
     def mouseReleaseEvent(self, event):
         super(AbstractPluginHeaderWidget, self).mouseReleaseEvent(event)
 
-
-class AbstractPluginBodyWidget(QWidget):
+class AbstractPluginBodyWidget(QFrame):
 
     expand = Signal(bool)
 

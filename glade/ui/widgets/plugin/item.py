@@ -111,13 +111,13 @@ class PluginBodyWidget(AbstractPluginBodyWidget):
             edit = QLineEdit()
             edit.setText(value)
             utils.colorbg(edit, "#222222")
-            edit.setStyleSheet(
-"""QLineEdit {
-    border: none;
-    padding: 2;
-    background: rgb(32, 32, 32);
-}
-""")
+#             edit.setStyleSheet(
+# """QLineEdit {
+#     border: none;
+#     padding: 2;
+#     background: rgb(32, 32, 32);
+# }
+# """)
             self.layout().addRow(key, edit)
 
 

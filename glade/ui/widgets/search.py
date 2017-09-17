@@ -1,6 +1,7 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
 
+from difflib import SequenceMatcher as SM
 
 class IconLineEdit(QLineEdit):
 
@@ -10,13 +11,13 @@ class IconLineEdit(QLineEdit):
         self.setTextMargins(36, 1, 1, 1)
         self.setFixedHeight(36)
         # print 'sdf'
-        self.setStyleSheet("""
-QLineEdit {
-    padding: 2 2 2 18;
-    border: None;
-    background-color: #333333;
-    border-radius: 3px;
-}""")
+#         self.setStyleSheet("""
+# QLineEdit {
+#     padding: 2 2 2 18;
+#     border: None;
+#     background-color: #333333;
+#     border-radius: 3px;
+# }""")
 
     def paintEvent(self, event):
         super(IconLineEdit, self).paintEvent(event)

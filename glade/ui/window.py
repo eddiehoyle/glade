@@ -4,10 +4,11 @@ from PySide.QtGui import *
 import os
 
 from glade import api
-
-from .widgets.plugin.list import PluginList
-from . import utils
+from glade.ui import resources
+from glade.ui import utils
 from glade.ui.widgets.search import IconLineEdit
+from glade.ui.widgets.plugin.list import PluginList
+from glade.ui import style
 
 
 class PluginManagerWindow(QMainWindow):
@@ -20,16 +21,9 @@ class PluginManagerWindow(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
-        # search_label = QLabel("Filter")
-        # search_edit = QLineEdit()
-
         pix_load = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/search.png")
         icon_load = QIcon()
         icon_load.addPixmap(pix_load.scaled(10, 10, Qt.KeepAspectRatio))
-        # self.load_button = QPushButton("Load")
-        # self.load_button.setIcon(icon_load)
-        # self.load_button.setStyleSheet("QPushButton { padding:0; }")
-        # self.load_button.setCheckable(True)
 
         search_edit = IconLineEdit(icon_load)
         search_edit.textChanged.connect(self.search)
@@ -37,7 +31,6 @@ class PluginManagerWindow(QMainWindow):
         search_edit.setTextMargins(20, 1, 1, 1)
 
         search_layout = QHBoxLayout()
-        # search_layout.addWidget(search_label)
         search_layout.addWidget(search_edit)
         search_layout.setContentsMargins(0, 0, 0, 0)
         search_layout.setSpacing(0)
@@ -54,27 +47,9 @@ class PluginManagerWindow(QMainWindow):
         scroll.setFrameShape(QFrame.NoFrame);
         scroll.setObjectName("pluginScroll")
 
-        # column_layout = QVBoxLayout()
-        # column_layout.setContentsMargins(0, 0, 0, 0)
-        # column_layout.setSpacing(0)
-        # column_widget = QWidget()
-        # column_widget.setLayout(column_layout)
-
-        # utils.colorbg(column_widget, "#123123")
-
-        # expand_button = QPushButton("+")
-        # expand_button.setFixedSize(23, 23)
-        # collapse_button = QPushButton("-")
-        # collapse_button.setFixedSize(23, 23)
-
-        # column_layout.addWidget(expand_button)
-        # column_layout.addWidget(collapse_button)
-        # column_layout.addStretch()
-
         body_layout = QHBoxLayout()
         body_widget = QWidget()
         body_widget.setLayout(body_layout)
-        # body_layout.addWidget(column_widget)
         body_layout.addWidget(scroll)
         body_layout.setContentsMargins(0, 0, 0, 0)
         body_layout.setSpacing(8)
@@ -102,25 +77,23 @@ class PluginManagerWindow(QMainWindow):
         size.setWidth(size.width() + 30)
         self.resize(size)
 
-        utils.colorbg(self.list, "#333333")
-
-
+        resource = QFile(":/stylesheets/style.qss")
+        if resource.open(QFile.ReadOnly):
+            self.setStyleSheet(str(resource.readAll()))
 
     @Slot()
     def refresh(self):
 
         plugins = api.get_all_plugins()
-
-        directories = {os.path.dirname(p.path) for p in plugins}
-        for i, plugin in enumerate(plugins):
+        for plugin in plugins:
             self.list.add_plugin(plugin)
-            # break;
         self.list.layout.addStretch()
 
 
     @Slot(str)
     def search(self, text):
         """"""
+        pass
         # terms = text.split()
         # self.list.filter(terms)
 
