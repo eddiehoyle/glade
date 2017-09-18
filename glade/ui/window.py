@@ -77,9 +77,8 @@ class PluginManagerWindow(QMainWindow):
         size.setWidth(size.width() + 30)
         self.resize(size)
 
-        resource = QFile(":/stylesheets/style.qss")
-        if resource.open(QFile.ReadOnly):
-            self.setStyleSheet(str(resource.readAll()))
+        stylesheet = utils.read_stylesheet("stylesheets:style.qss")
+        self.setStyleSheet(stylesheet)
 
     @Slot()
     def refresh(self):

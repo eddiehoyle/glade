@@ -17,3 +17,15 @@ def randombg(cls):
     # pal.setColor(QPalette.Background, hexcode);
     # cls.setAutoFillBackground(True);
     # cls.setPalette(pal);
+
+def read_stylesheet(path):
+    """"""
+
+    stylesheet_file = QFile(path)
+    if stylesheet_file.open(QIODevice.ReadOnly | QFile.Text):
+        stream = QTextStream(stylesheet_file)
+        document = ""
+        while not stream.atEnd():
+            document += stream.readLine()
+    stylesheet_file.close()
+    return document
