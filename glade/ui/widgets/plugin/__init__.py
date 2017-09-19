@@ -3,6 +3,9 @@ from PySide.QtGui import *
 
 class AbstractPluginHeaderWidget(QFrame):
 
+    MARGIN = 0
+    SPACING = 0
+
     expand = Signal(bool)
 
     def __init__(self, parent=None):

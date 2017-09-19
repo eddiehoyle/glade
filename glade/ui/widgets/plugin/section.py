@@ -19,30 +19,29 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
         layout = QHBoxLayout()
         self.setLayout(layout)
 
+        folder_pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/folder.png")
+        folder_label = QLabel()
+        folder_label.setPixmap(folder_pix.scaled(16, 16, Qt.KeepAspectRatio))
+
         pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/arrow_left.png")
         self.arrow_label = QLabel()
         self.arrow_label.setPixmap(pix.scaled(16, 16, Qt.KeepAspectRatio))
 
         self.label = QLabel(directory)
         self.label.setText(directory)
+        self.label.setObjectName("sectionPluginDirectory")
+        layout.addWidget(folder_label)
         layout.addWidget(self.label)
         layout.addStretch()
         layout.addWidget(self.arrow_label)
-        layout.setContentsMargins(
-            style.PluginSectionStyle.HEADER_MARGIN,
-            style.PluginSectionStyle.HEADER_MARGIN,
-            style.PluginSectionStyle.HEADER_MARGIN,
-            style.PluginSectionStyle.HEADER_MARGIN,
-        )
-        layout.setSpacing(style.PluginSectionStyle.HEADER_SPACING)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
 
         self.setObjectName("sectionHeader")
 
 
         self.setMouseTracking(True)
         self.expand.connect(self.__update_icon)
-
-        # utils.colorbg(self, "#444444")
 
     def __update_icon(self):
         if self.is_expanded:
@@ -80,13 +79,8 @@ class PluginSectionBodyWidget(AbstractPluginBodyWidget):
         super(PluginSectionBodyWidget, self).__init__(parent=parent)
 
         layout = QVBoxLayout()
-        layout.setContentsMargins(
-            style.PluginSectionStyle.BODY_MARGIN,
-            style.PluginSectionStyle.BODY_MARGIN,
-            style.PluginSectionStyle.BODY_MARGIN,
-            style.PluginSectionStyle.BODY_MARGIN,
-        )
-        layout.setSpacing(style.PluginSectionStyle.BODY_SPACING)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
 
         self.setObjectName("sectionBody")
@@ -100,13 +94,8 @@ class PluginSectionWidget(QWidget):
         self.directory = directory
 
         layout = QVBoxLayout()
-        layout.setContentsMargins(
-            style.PluginSectionStyle.MARGIN,
-            style.PluginSectionStyle.MARGIN,
-            style.PluginSectionStyle.MARGIN,
-            style.PluginSectionStyle.MARGIN,
-        )
-        layout.setSpacing(style.PluginSectionStyle.SPACING)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
 
         self.header_widget = PluginSectionHeaderWidget(directory)
@@ -129,14 +118,6 @@ class PluginSectionWidget(QWidget):
         widget = PluginItemWidget(plugin)
         self.plugins.append(widget)
         self.body_widget.layout().addWidget(widget)
-
-        # TODO: Improve this
-        if len(self.plugins) % 2 == 0:
-            utils.colorbg(widget.header_widget, "#3A3430")
-            utils.colorbg(widget.body_widget, "#2A2A2A")
-        else:
-            utils.colorbg(widget.header_widget, "#513533")
-            utils.colorbg(widget.body_widget, "#2A2A2A")
 
     def filter(self, terms):
         self.header_widget.filter(terms)

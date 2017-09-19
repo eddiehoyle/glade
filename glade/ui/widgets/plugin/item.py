@@ -15,6 +15,7 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
         self.plugin = plugin
 
         self.name_label = QLabel(plugin.name)
+        self.name_label.setObjectName("itemPluginName")
         # self.load_label = QLabel("Load")
         # self.load_checkbox = QCheckBox()
         # self.autoload_label = QLabel("Autoload")
@@ -23,29 +24,25 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
         pix_load = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/disk.png")
         icon_load = QIcon()
         icon_load.addPixmap(pix_load.scaled(10, 10, Qt.KeepAspectRatio))
-        self.load_button = QPushButton("Load")
+        self.load_button = QPushButton()
         self.load_button.setIcon(icon_load)
-        self.load_button.setStyleSheet("QPushButton { padding:0; }")
         self.load_button.setCheckable(True)
+        self.load_button.setObjectName("load")
+
 
         pix_autoload = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/disk2.png")
         icon_autoload = QIcon()
         icon_autoload.addPixmap(pix_autoload.scaled(10, 10, Qt.KeepAspectRatio))
-        self.autoload_button = QPushButton("Autoload")
+        self.autoload_button = QPushButton()
         self.autoload_button.setIcon(icon_autoload)
-        self.autoload_button.setStyleSheet("QPushButton { padding:0; }")
         self.autoload_button.setCheckable(True)
+        self.autoload_button.setObjectName("load")
 
         spacer = QSpacerItem(2, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         layout = QHBoxLayout()
-        layout.setContentsMargins(
-            style.PluginItemStyle.HEADER_MARGIN,
-            style.PluginItemStyle.HEADER_MARGIN,
-            style.PluginItemStyle.HEADER_MARGIN,
-            style.PluginItemStyle.HEADER_MARGIN,
-        )
-        layout.setSpacing(style.PluginItemStyle.HEADER_SPACING)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
 
         layout.addWidget(self.name_label)
@@ -62,6 +59,8 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
         self.setMouseTracking(True)
 
         self.initialise()
+
+        self.setObjectName("itemHeader")
 
         utils.colorbg(self,  "#123512")
 
@@ -94,31 +93,23 @@ class PluginBodyWidget(AbstractPluginBodyWidget):
         self.plugin = plugin
 
         layout = QFormLayout()
-        layout.setContentsMargins(
-            style.PluginItemStyle.BODY_MARGIN,
-            style.PluginItemStyle.BODY_MARGIN,
-            style.PluginItemStyle.BODY_MARGIN,
-            style.PluginItemStyle.BODY_MARGIN,
-        )
-        layout.setSpacing(style.PluginItemStyle.BODY_SPACING)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
 
         self.initialise()
 
+        self.setObjectName("itemBody")
+
     def initialise(self):
 
         for key, value in self.plugin.data().iteritems():
+            label = QLabel(key)
+            label.setObjectName("itemDataKey")
             edit = QLineEdit()
             edit.setText(value)
-            utils.colorbg(edit, "#222222")
-#             edit.setStyleSheet(
-# """QLineEdit {
-#     border: none;
-#     padding: 2;
-#     background: rgb(32, 32, 32);
-# }
-# """)
-            self.layout().addRow(key, edit)
+            edit.setObjectName("itemDataValue")
+            self.layout().addRow(label, edit)
 
 
 class PluginItemWidget(QWidget):
@@ -129,13 +120,8 @@ class PluginItemWidget(QWidget):
         self.plugin = plugin
 
         layout = QVBoxLayout()
-        layout.setContentsMargins(
-            style.PluginItemStyle.MARGIN,
-            style.PluginItemStyle.MARGIN,
-            style.PluginItemStyle.MARGIN,
-            style.PluginItemStyle.MARGIN,
-        )
-        layout.setSpacing(style.PluginItemStyle.SPACING)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
 
         self.header_widget = PluginHeaderWidget(plugin)

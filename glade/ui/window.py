@@ -60,7 +60,7 @@ class PluginManagerWindow(QMainWindow):
         close_button = QPushButton("Close")
         close_button.clicked.connect(self.close)
         refresh_button = QPushButton("Refresh")
-        refresh_button.clicked.connect(self.refresh)
+        refresh_button.clicked.connect(self.reload_stylesheet)
         footer_layout.addWidget(close_button)
         footer_layout.addWidget(refresh_button)
         footer_layout.setContentsMargins(0, 0, 0, 0)
@@ -70,6 +70,7 @@ class PluginManagerWindow(QMainWindow):
         layout.addWidget(footer_widget)
 
         self.refresh()
+        self.reload_stylesheet()
 
         self.setMinimumWidth(self.sizeHint().width())
         size = self.sizeHint()
@@ -77,10 +78,11 @@ class PluginManagerWindow(QMainWindow):
         size.setWidth(size.width() + 30)
         self.resize(size)
 
+    @Slot()
+    def reload_stylesheet(self):
         stylesheet = utils.read_stylesheet("stylesheets:style.qss")
         self.setStyleSheet(stylesheet)
 
-    @Slot()
     def refresh(self):
 
         plugins = api.get_all_plugins()

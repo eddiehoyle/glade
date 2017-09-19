@@ -1,19 +1,52 @@
+
+/* Section
+ */
+QLabel#sectionPluginDirectory {
+    margin-left: 4px;
+}
 QFrame#sectionHeader {
-    background-color: "red";
+    background-color: "#555555";
     margin: 0px;
     padding: 5px;
 }
 QFrame#sectionBody {
-    background-color: "blue";
+    background-color: "#333333";
+    margin: 0px;
+    padding: 0px;
+}
+QPushButton#load {
+    padding: 0px;
+    margin: 0px;
+}
+
+/* Plugin
+ */
+ QLabel#itemPluginName {
+    margin-left: 2px;
+}
+QFrame#itemHeader {
+    background-color: "#333333";
     margin: 0px;
     padding: 5px;
 }
-QPushButton {
-    background-color: red;
+QFrame#itemBody {
+    background-color: "#222222";
+    margin: 4px;
+    padding: 1px;
 }
-QScrollArea {
-    background-color: orange;
+QLabel#itemDataKey {
+    margin: 4px;
+    padding: 1px;
 }
-QLineEdit {
-    background-color: green;
+QLineEdit#itemDataValue {
+    margin: 0px;
+    padding: 2px;
+    border: none;
+}
+
+/* Window
+ */
+QLineEdit#searchField {
+    padding: 10px;
+    margin: 0px;
 }
