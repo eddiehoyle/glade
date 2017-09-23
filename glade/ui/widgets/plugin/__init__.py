@@ -29,7 +29,35 @@ class AbstractPluginHeaderWidget(QFrame):
 
 class AbstractPluginBodyWidget(QFrame):
 
-    expand = Signal(bool)
-
     def __init__(self, parent=None):
         super(AbstractPluginBodyWidget, self).__init__(parent=parent)
+
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        self.setLayout(layout)
+
+    def addWidget(self, widget):
+        """Override"""
+        self.layout().addWidget(widget)
+
+    def setVisible(self, state):
+        """Override"""
+        updates_enabled = self.updatesEnabled()
+        self.setUpdatesEnabled(False)
+        super(AbstractPluginBodyWidget, self).setVisible(state)
+        self.setUpdatesEnabled(updates_enabled)
+
+
+class AbstractIndexedPluginWidget(QFrame):
+
+    def __init__(self, index, parent=None):
+        super(AbstractIndexedPluginWidget, self).__init__(parent=parent)
+
+        self.__index = index
+
+    def set_index(self, index):
+        self.__index = index
+
+    def index(self):
+        return self.__index

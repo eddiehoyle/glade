@@ -1,5 +1,6 @@
+import os
 from PySide.QtCore import QDir
 QDir.setSearchPaths(
     "stylesheets",
-    ["/Users/eddiehoyle/Code/python/glade/resources/stylesheets"]
+    [os.path.join(os.getenv("GLADE_ROOT", ""), "resources/stylesheets")]
 )

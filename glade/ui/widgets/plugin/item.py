@@ -5,6 +5,7 @@ from glade.ui import utils
 
 from . import AbstractPluginHeaderWidget
 from . import AbstractPluginBodyWidget
+from . import AbstractIndexedPluginWidget
 from ... import style
 
 class PluginHeaderWidget(AbstractPluginHeaderWidget):
@@ -60,10 +61,6 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
         self.initialise()
 
-        self.setObjectName("itemHeader")
-
-        utils.colorbg(self,  "#123512")
-
     def set_expanded(self, state):
         super(PluginHeaderWidget, self).set_expanded(state)
 
@@ -90,32 +87,35 @@ class PluginBodyWidget(AbstractPluginBodyWidget):
     def __init__(self, plugin, parent=None):
         super(PluginBodyWidget, self).__init__(parent=parent)
 
+        # Unset base class layout
+        QWidget().setLayout(self.layout())
+
         self.plugin = plugin
 
         layout = QFormLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
+        layout.setSpacing(5)
         self.setLayout(layout)
 
         self.initialise()
 
-        self.setObjectName("itemBody")
+    def add_data(self, label, widget):
+        label.setObjectName("itemDataKey")
+        widget.setObjectName("itemDataValue")
+        self.layout().addRow(label, widget)
 
     def initialise(self):
-
         for key, value in self.plugin.data().iteritems():
             label = QLabel(key)
-            label.setObjectName("itemDataKey")
-            edit = QLineEdit()
-            edit.setText(value)
-            edit.setObjectName("itemDataValue")
-            self.layout().addRow(label, edit)
+            widget = QLineEdit()
+            widget.setText(value)
+            self.add_data(label, widget)
 
 
-class PluginItemWidget(QWidget):
+class PluginItemWidget(AbstractIndexedPluginWidget):
 
-    def __init__(self, plugin, parent=None):
-        super(PluginItemWidget, self).__init__(parent=parent)
+    def __init__(self, index, plugin, parent=None):
+        super(PluginItemWidget, self).__init__(index, parent=parent)
 
         self.plugin = plugin
 
@@ -126,6 +126,7 @@ class PluginItemWidget(QWidget):
 
         self.header_widget = PluginHeaderWidget(plugin)
         self.header_widget.expand.connect(self.expand)
+
         self.body_widget = PluginBodyWidget(plugin)
 
         layout.addWidget(self.header_widget)
@@ -135,6 +136,16 @@ class PluginItemWidget(QWidget):
         self.header_widget.set_expanded(False)
 
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        self.initialise()
+
+    def initialise(self):
+        suffix = "A" if self.index() % 2 == 0 else "B"
+        self.setObjectName("item{0}".format(suffix))
+        self.header_widget.setObjectName("itemHeader{0}".format(suffix))
+        self.body_widget.setObjectName("itemBody{0}".format(suffix))
+
+        print self.header_widget.objectName()
 
     @Slot(bool)
     def expand(self, state):

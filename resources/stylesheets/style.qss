@@ -4,12 +4,22 @@
 QLabel#sectionPluginDirectory {
     margin-left: 4px;
 }
-QFrame#sectionHeader {
+QFrame#sectionHeaderA {
     background-color: "#555555";
     margin: 0px;
     padding: 5px;
 }
-QFrame#sectionBody {
+QFrame#sectionHeaderB {
+    background-color: "#5F5F5F";
+    margin: 0px;
+    padding: 5px;
+}
+QFrame#sectionBodyA {
+    background-color: "#333333";
+    margin: 0px;
+    padding: 0px;
+}
+QFrame#sectionBodyB {
     background-color: "#333333";
     margin: 0px;
     padding: 0px;
@@ -24,19 +34,29 @@ QPushButton#load {
  QLabel#itemPluginName {
     margin-left: 2px;
 }
-QFrame#itemHeader {
+QFrame#itemHeaderA {
     background-color: "#333333";
     margin: 0px;
     padding: 5px;
 }
-QFrame#itemBody {
+QFrame#itemHeaderB {
+    background-color: "#3A3A3A";
+    margin: 0px;
+    padding: 5px;
+}
+QFrame#itemBodyA {
     background-color: "#222222";
-    margin: 4px;
-    padding: 1px;
+    margin: 0px;
+    padding: 5px;
+}
+QFrame#itemBodyB {
+    background-color: "#222222";
+    margin: 0px;
+    padding: 5px;
 }
 QLabel#itemDataKey {
     margin: 4px;
-    padding: 1px;
+    padding: 0px;
 }
 QLineEdit#itemDataValue {
     margin: 0px;
@@ -47,6 +67,6 @@ QLineEdit#itemDataValue {
 /* Window
  */
 QLineEdit#searchField {
-    padding: 10px;
+    padding: 5px;
     margin: 0px;
 }
