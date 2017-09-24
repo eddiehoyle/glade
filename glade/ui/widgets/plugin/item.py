@@ -3,10 +3,45 @@ from PySide.QtGui import *
 
 from glade.ui import utils
 
-from . import AbstractPluginHeaderWidget
+from . import AbstractPluginWidget
 from . import AbstractPluginBodyWidget
-from . import AbstractIndexedPluginWidget
+from . import AbstractPluginHeaderWidget
 from ... import style
+
+class PluginItemWidget(AbstractPluginWidget):
+
+    def __init__(self, plugin, parent=None):
+        super(PluginItemWidget, self).__init__(parent=parent)
+
+        self.plugin = plugin
+
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        self.setLayout(layout)
+
+        self.header_widget = PluginHeaderWidget(plugin)
+        self.header_widget.expand.connect(self.expand)
+
+        self.body_widget = PluginBodyWidget(plugin)
+
+        layout.addWidget(self.header_widget)
+        layout.addWidget(self.body_widget)
+        layout.addStretch()
+
+        self.header_widget.set_expanded(False)
+
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed))
+
+        self.setObjectName("item")
+        self.header_widget.setObjectName("itemHeader")
+        self.body_widget.setObjectName("itemBody")
+
+    @Slot(bool)
+    def expand(self, state):
+        """"""
+        self.body_widget.setVisible(state)
+
 
 class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
@@ -110,45 +145,4 @@ class PluginBodyWidget(AbstractPluginBodyWidget):
             widget = QLineEdit()
             widget.setText(value)
             self.add_data(label, widget)
-
-
-class PluginItemWidget(AbstractIndexedPluginWidget):
-
-    def __init__(self, index, plugin, parent=None):
-        super(PluginItemWidget, self).__init__(index, parent=parent)
-
-        self.plugin = plugin
-
-        layout = QVBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
-        self.setLayout(layout)
-
-        self.header_widget = PluginHeaderWidget(plugin)
-        self.header_widget.expand.connect(self.expand)
-
-        self.body_widget = PluginBodyWidget(plugin)
-
-        layout.addWidget(self.header_widget)
-        layout.addWidget(self.body_widget)
-        layout.addStretch()
-
-        self.header_widget.set_expanded(False)
-
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed))
-
-        self.initialise()
-
-    def initialise(self):
-        suffix = "A" if self.index() % 2 == 0 else "B"
-        self.setObjectName("item{0}".format(suffix))
-        self.header_widget.setObjectName("itemHeader{0}".format(suffix))
-        self.body_widget.setObjectName("itemBody{0}".format(suffix))
-
-        print self.header_widget.objectName()
-
-    @Slot(bool)
-    def expand(self, state):
-        """"""
-        self.body_widget.setVisible(state)
 

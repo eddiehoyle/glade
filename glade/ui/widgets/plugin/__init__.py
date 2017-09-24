@@ -27,6 +27,15 @@ class AbstractPluginHeaderWidget(QFrame):
     def mouseReleaseEvent(self, event):
         super(AbstractPluginHeaderWidget, self).mouseReleaseEvent(event)
 
+    def enterEvent(self, event):
+        super(AbstractPluginHeaderWidget, self).enterEvent(event)
+        self.setCursor(Qt.PointingHandCursor)
+
+    def leaveEvent(self, event):
+        super(AbstractPluginHeaderWidget, self).leaveEvent(event)
+        self.unsetCursor()
+
+
 class AbstractPluginBodyWidget(QFrame):
 
     def __init__(self, parent=None):
@@ -39,25 +48,19 @@ class AbstractPluginBodyWidget(QFrame):
 
     def addWidget(self, widget):
         """Override"""
+
         self.layout().addWidget(widget)
 
     def setVisible(self, state):
         """Override"""
+
         updates_enabled = self.updatesEnabled()
         self.setUpdatesEnabled(False)
         super(AbstractPluginBodyWidget, self).setVisible(state)
         self.setUpdatesEnabled(updates_enabled)
 
 
-class AbstractIndexedPluginWidget(QFrame):
+class AbstractPluginWidget(QFrame):
 
-    def __init__(self, index, parent=None):
-        super(AbstractIndexedPluginWidget, self).__init__(parent=parent)
-
-        self.__index = index
-
-    def set_index(self, index):
-        self.__index = index
-
-    def index(self):
-        return self.__index
+    def __init__(self, parent=None):
+        super(AbstractPluginWidget, self).__init__(parent=parent)

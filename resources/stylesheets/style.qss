@@ -1,26 +1,23 @@
 
 /* Section
  */
-QLabel#sectionPluginDirectory {
+QLabel#sectionHeaderLabel {
     margin-left: 4px;
 }
-QFrame#sectionHeaderA {
+QLabel#sectionHeaderCount {
+    background-color: "#444444";
+    padding: 3px;
+    border-radius: 4px
+}
+QFrame#sectionHeader {
     background-color: "#555555";
     margin: 0px;
-    padding: 5px;
+    padding: 3px;
 }
-QFrame#sectionHeaderB {
-    background-color: "#5F5F5F";
-    margin: 0px;
-    padding: 5px;
+QFrame#sectionHeader:hover {
+    background-color: "#5A5A5A";
 }
-QFrame#sectionBodyA {
-    background-color: "#333333";
-    margin: 0px;
-    padding: 0px;
-}
-QFrame#sectionBodyB {
-    background-color: "#333333";
+QFrame#sectionBody {
     margin: 0px;
     padding: 0px;
 }
@@ -34,22 +31,15 @@ QPushButton#load {
  QLabel#itemPluginName {
     margin-left: 2px;
 }
-QFrame#itemHeaderA {
+QFrame#itemHeader {
     background-color: "#333333";
     margin: 0px;
-    padding: 5px;
+    padding: 3px;
 }
-QFrame#itemHeaderB {
+QFrame#itemHeader:hover {
     background-color: "#3A3A3A";
-    margin: 0px;
-    padding: 5px;
 }
-QFrame#itemBodyA {
-    background-color: "#222222";
-    margin: 0px;
-    padding: 5px;
-}
-QFrame#itemBodyB {
+QFrame#itemBody {
     background-color: "#222222";
     margin: 0px;
     padding: 5px;
@@ -69,4 +59,7 @@ QLineEdit#itemDataValue {
 QLineEdit#searchField {
     padding: 5px;
     margin: 0px;
+}
+QFrame#pluginList {
+    /*background-color: "#222222";*/
 }

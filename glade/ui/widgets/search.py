@@ -3,16 +3,17 @@ from PySide.QtGui import *
 
 from difflib import SequenceMatcher as SM
 
-class IconLineEdit(QLineEdit):
+class SearchLineEdit(QLineEdit):
 
     def __init__(self, icon, parent=None):
-        super(IconLineEdit, self).__init__(parent=parent)
+        super(SearchLineEdit, self).__init__(parent=parent)
         self.icon = icon
         self.setTextMargins(0, 0, 0, 0)
         self.setObjectName("searchField")
+        self.setFrame(False)
 
     def paintEvent(self, event):
-        super(IconLineEdit, self).paintEvent(event)
+        super(SearchLineEdit, self).paintEvent(event)
 
         painter = QPainter(self)
         pix = self.icon.pixmap(30, 30)

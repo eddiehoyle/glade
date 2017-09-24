@@ -9,13 +9,15 @@ class PluginList(QFrame):
     def __init__(self, parent=None):
         super(PluginList, self).__init__(parent=parent)
 
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
+        layout = QVBoxLayout()
+        self.setLayout(layout)
 
-        self.layout.setContentsMargins(0, 0, 0, 0)
-        self.layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(1)
 
         self.sections = {}
+
+        self.setObjectName("pluginList")
 
     def filter(self, terms):
         """"""
@@ -24,12 +26,10 @@ class PluginList(QFrame):
 
     def __add_section(self, directory):
         """"""
-
         section = self.sections.get(directory, None)
         if section is None:
-            index = len(self.sections)
-            section = PluginSectionWidget(index, directory)
-            self.layout.addWidget(section)
+            section = PluginSectionWidget(directory, parent=self)
+            self.layout().addWidget(section)
             self.sections[directory] = section
         return section
 
