@@ -2,17 +2,19 @@
 /* Section
  */
 QLabel#sectionHeaderLabel {
-    margin-left: 4px;
+    margin-left: 5px;
+    font-size: 11pt;
 }
 QLabel#sectionHeaderCount {
     background-color: "#444444";
-    padding: 3px;
-    border-radius: 4px
+    padding: 2px;
+    border-radius: 4px;
+    font-size: 9pt;
 }
 QFrame#sectionHeader {
     background-color: "#555555";
     margin: 0px;
-    padding: 3px;
+    padding: 4px;
 }
 QFrame#sectionHeader:hover {
     background-color: "#5A5A5A";
@@ -34,7 +36,8 @@ QPushButton#load {
 QFrame#itemHeader {
     background-color: "#333333";
     margin: 0px;
-    padding: 3px;
+    padding: 4px;
+    font-size: 11pt;
 }
 QFrame#itemHeader:hover {
     background-color: "#3A3A3A";
@@ -44,14 +47,40 @@ QFrame#itemBody {
     margin: 0px;
     padding: 5px;
 }
+QLabel#loadLabel {
+    margin-right: 0px;
+    padding-right: 10px;
+    padding-left: 2px;
+}
+QLabel#autoloadLabel {
+    margin-right: 0px;
+    padding-right: 0px;
+    padding-left: 2px;
+}
+QPushButton#loadIcon {
+    margin-right: 5px;
+}
+QPushButton{ background-color: blue; }
+QPushButton:disabled{ background-color: yellow; }
+QPushButton:pressed{ background-color: orange; }
+QPushButton:focus:pressed{ background-color: yellow; }
+QPushButton:focus{ background-color: green; }
+QPushButton:hover{ background-color: red; }
+QPushButton:checked{ background-color: pink; }
+QPushButton#autoloadIcon {
+    margin-right: 0px;
+    padding-left: 0px;
+}
 QLabel#itemDataKey {
     margin: 4px;
     padding: 0px;
+    font-size: 11pt;
 }
 QLineEdit#itemDataValue {
     margin: 0px;
     padding: 2px;
     border: none;
+    font-size: 11pt;
 }
 
 /* Window

@@ -14,6 +14,7 @@ class PluginSectionWidget(AbstractPluginWidget):
     def __init__(self, directory, parent=None):
         super(PluginSectionWidget, self).__init__(parent=parent)
 
+
         self.directory = directory
 
         layout = QVBoxLayout()
@@ -61,9 +62,9 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
         layout = QHBoxLayout()
         self.setLayout(layout)
 
-        folder_pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/folder.png")
+        folder_pix = QPixmap("resources:icons/directory.png")
         folder_label = QLabel()
-        folder_label.setPixmap(folder_pix.scaled(16, 16, Qt.KeepAspectRatio))
+        folder_label.setPixmap(folder_pix)
 
         self.directory_label = QLabel(directory)
         self.directory_label.setText(directory)
@@ -80,7 +81,6 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
         layout.addWidget(self.directory_label)
         layout.addStretch()
         layout.addWidget(self.count_label)
-        # layout.addWidget(self.arrow_label)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
 

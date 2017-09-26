@@ -7,6 +7,7 @@ from . import AbstractPluginWidget
 from . import AbstractPluginBodyWidget
 from . import AbstractPluginHeaderWidget
 from ... import style
+from .load import LabelledChecboxWidget
 
 class PluginItemWidget(AbstractPluginWidget):
 
@@ -52,29 +53,36 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
         self.name_label = QLabel(plugin.name)
         self.name_label.setObjectName("itemPluginName")
+
+        self.load_widget = LabelledChecboxWidget("Load")
+        self.autoload_widget = LabelledChecboxWidget("Autoload")
+        
         # self.load_label = QLabel("Load")
-        # self.load_checkbox = QCheckBox()
+        # self.load_label.setObjectName("loadLabel")
         # self.autoload_label = QLabel("Autoload")
+        # self.autoload_label.setObjectName("autoloadLabel")
+
+        # self.load_checkbox = QCheckBox()
         # self.autoload_checkbox = QCheckBox()
 
-        pix_load = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/disk.png")
-        icon_load = QIcon()
-        icon_load.addPixmap(pix_load.scaled(10, 10, Qt.KeepAspectRatio))
-        self.load_button = QPushButton()
-        self.load_button.setIcon(icon_load)
-        self.load_button.setCheckable(True)
-        self.load_button.setObjectName("load")
+        # load_pix = QPixmap("resources:icons/load.png")
+        # load_icon = QIcon()
+        # load_icon.addPixmap(load_pix)
+        # self.load_button = QPushButton("Load")
+        # self.load_button.setObjectName("loadIcon")
+        # self.load_button.setIcon(load_icon)
+        # self.load_button.setCheckable(True)
 
 
-        pix_autoload = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/disk2.png")
-        icon_autoload = QIcon()
-        icon_autoload.addPixmap(pix_autoload.scaled(10, 10, Qt.KeepAspectRatio))
-        self.autoload_button = QPushButton()
-        self.autoload_button.setIcon(icon_autoload)
-        self.autoload_button.setCheckable(True)
-        self.autoload_button.setObjectName("load")
+        # autoload_pix = QPixmap("resources:icons/autoload.png")
+        # autoload_icon = QIcon()
+        # autoload_icon.addPixmap(autoload_pix)
+        # self.autoload_button = QPushButton("Autoload")
+        # self.autoload_button.setObjectName("autoloadIcon")
+        # self.autoload_button.setIcon(autoload_icon)
+        # self.autoload_button.setCheckable(True)
 
-        spacer = QSpacerItem(2, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        # spacer = QSpacerItem(2, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -83,13 +91,15 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
         layout.addWidget(self.name_label)
         layout.addStretch()
+        # layout.addItem(spacer)
+        # layout.addWidget(self.load_button)
         # layout.addWidget(self.load_label)
         # layout.addWidget(self.load_checkbox)
-        # layout.addWidget(self.autoload_label)
         # layout.addWidget(self.autoload_checkbox)
-        layout.addWidget(self.load_button)
-        layout.addItem(spacer)
-        layout.addWidget(self.autoload_button)
+        # layout.addWidget(self.autoload_button)
+        # layout.addWidget(self.autoload_label)
+        layout.addWidget(self.load_widget)
+        layout.addWidget(self.autoload_widget)
 
         self.is_expanded = True
         self.setMouseTracking(True)
@@ -104,17 +114,21 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
     def initialise(self):
         self.name_label.setText(self.plugin.name)
-        self.load_button.setChecked(self.plugin.is_loaded)
-        self.autoload_button.setChecked(self.plugin.is_autoload)
+        # self.load_button.setChecked(self.plugin.is_loaded)
+        # self.autoload_button.setChecked(self.plugin.is_autoload)
 
     def mouseMoveEvent(self, event):
-        super(PluginHeaderWidget, self).mouseMoveEvent(event)
+        print self.load_widget.rect().contains(event.pos())
+        if not self.load_widget.rect().contains(self.load_widget.mapFromGlobal(event.pos())):
+            super(PluginHeaderWidget, self).mouseMoveEvent(event)
 
     def mousePressEvent(self, event):
-        super(PluginHeaderWidget, self).mousePressEvent(event)
+        if not self.load_widget.rect().contains(self.load_widget.mapFromGlobal(event.pos())):
+            super(PluginHeaderWidget, self).mousePressEvent(event)
 
     def mouseReleaseEvent(self, event):
-        super(PluginHeaderWidget, self).mouseReleaseEvent(event)
+        if not self.load_widget.rect().contains(self.load_widget.mapFromGlobal(event.pos())):
+            super(PluginHeaderWidget, self).mouseReleaseEvent(event)
 
 
 class PluginBodyWidget(AbstractPluginBodyWidget):

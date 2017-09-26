@@ -6,6 +6,7 @@ from PySide.QtGui import *
 from glade import api
 from glade.ui.widgets.search import SearchLineEdit
 from glade.ui.widgets.plugin.list import PluginList
+from glade.ui import utils
 
 
 class PluginManagerWindow(QMainWindow):
@@ -19,11 +20,11 @@ class PluginManagerWindow(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
-        load_pixmap = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/search.png")
-        load_icon = QIcon()
-        load_icon.addPixmap(load_pixmap.scaled(10, 10, Qt.KeepAspectRatio))
+        search_pixmap = QPixmap("resources:icons/search.png")
+        search_icon = QIcon()
+        search_icon.addPixmap(search_pixmap)
 
-        search_field = SearchLineEdit(load_icon)
+        search_field = SearchLineEdit(search_icon)
         search_field.textChanged.connect(self.search)
         search_field.setFocus()
         search_field.setTextMargins(20, 1, 1, 1)
@@ -83,7 +84,7 @@ class PluginManagerWindow(QMainWindow):
     def reload_stylesheet(self):
         """Temp"""
 
-        stylesheet = utils.read_stylesheet("stylesheets:style.qss")
+        stylesheet = utils.read_stylesheet("resources:stylesheets/style.qss")
         self.setStyleSheet(stylesheet)
 
     def refresh(self):
