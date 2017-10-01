@@ -14,7 +14,6 @@ class PluginSectionWidget(AbstractPluginWidget):
     def __init__(self, directory, parent=None):
         super(PluginSectionWidget, self).__init__(parent=parent)
 
-
         self.directory = directory
 
         layout = QVBoxLayout()
@@ -27,10 +26,10 @@ class PluginSectionWidget(AbstractPluginWidget):
 
         self.body_widget = PluginSectionBodyWidget(directory)
 
+        self.plugin_added.connect(self.header_widget.count_updated)
+
         layout.addWidget(self.header_widget)
         layout.addWidget(self.body_widget)
-
-        self.plugin_added.connect(self.header_widget.count_updated)
 
         self.header_widget.set_expanded(False)
 
@@ -73,10 +72,6 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
         self.count_label = QLabel("0")
         self.count_label.setObjectName("sectionHeaderCount")
 
-        # pix = QPixmap("/Users/eddiehoyle/Code/python/glade/icons/arrow_left.png")
-        # self.arrow_label = QLabel()
-        # self.arrow_label.setPixmap(pix.scaled(16, 16, Qt.KeepAspectRatio))
-
         layout.addWidget(folder_label)
         layout.addWidget(self.directory_label)
         layout.addStretch()
@@ -115,3 +110,5 @@ class PluginSectionBodyWidget(AbstractPluginBodyWidget):
 
     def __init__(self, directory, parent=None):
         super(PluginSectionBodyWidget, self).__init__(parent=parent)
+
+        self.layout().setSpacing(1)

@@ -3,7 +3,7 @@
  */
 QLabel#sectionHeaderLabel {
     margin-left: 5px;
-    font-size: 11pt;
+    font-weight: bold;
 }
 QLabel#sectionHeaderCount {
     background-color: "#444444";
@@ -47,30 +47,6 @@ QFrame#itemBody {
     margin: 0px;
     padding: 5px;
 }
-QLabel#loadLabel {
-    margin-right: 0px;
-    padding-right: 10px;
-    padding-left: 2px;
-}
-QLabel#autoloadLabel {
-    margin-right: 0px;
-    padding-right: 0px;
-    padding-left: 2px;
-}
-QPushButton#loadIcon {
-    margin-right: 5px;
-}
-QPushButton{ background-color: blue; }
-QPushButton:disabled{ background-color: yellow; }
-QPushButton:pressed{ background-color: orange; }
-QPushButton:focus:pressed{ background-color: yellow; }
-QPushButton:focus{ background-color: green; }
-QPushButton:hover{ background-color: red; }
-QPushButton:checked{ background-color: pink; }
-QPushButton#autoloadIcon {
-    margin-right: 0px;
-    padding-left: 0px;
-}
 QLabel#itemDataKey {
     margin: 4px;
     padding: 0px;
@@ -90,5 +66,6 @@ QLineEdit#searchField {
     margin: 0px;
 }
 QFrame#pluginList {
-    /*background-color: "#222222";*/
+    background-color: "#333333";
+    border: 1px solid "#333333";
 }

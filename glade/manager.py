@@ -78,60 +78,60 @@ class Dispatcher(QObject):
             thread.terminate()
 
 
-class PluginManagerWindow(QMainWindow):
+# class PluginManagerWindow(QMainWindow):
 
-    def __init__(self, *args, **kwargs):
-        super(PluginManagerWindow, self).__init__(*args, **kwargs)
+#     def __init__(self, *args, **kwargs):
+#         super(PluginManagerWindow, self).__init__(*args, **kwargs)
 
-        layout = QVBoxLayout()
-        widget = QWidget()
-        widget.setLayout(layout)
-        self.setCentralWidget(widget)
+#         layout = QVBoxLayout()
+#         widget = QWidget()
+#         widget.setLayout(layout)
+#         self.setCentralWidget(widget)
 
-        start_button = QPushButton("Start")
-        start_button.clicked.connect(self.start)
-        layout.addWidget(start_button)
+#         start_button = QPushButton("Start")
+#         start_button.clicked.connect(self.start)
+#         layout.addWidget(start_button)
 
-        clear_button = QPushButton("Clear")
-        clear_button.clicked.connect(self.clear)
-        layout.addWidget(clear_button)
+#         clear_button = QPushButton("Clear")
+#         clear_button.clicked.connect(self.clear)
+#         layout.addWidget(clear_button)
 
-        poll_button = QPushButton("Poll")
-        poll_button.clicked.connect(self.poll)
-        layout.addWidget(poll_button)
+#         poll_button = QPushButton("Poll")
+#         poll_button.clicked.connect(self.poll)
+#         layout.addWidget(poll_button)
 
-        self.tree = QTreeWidget()
-        layout.addWidget(self.tree)
+#         self.tree = QTreeWidget()
+#         layout.addWidget(self.tree)
 
-        self.dispatcher = Dispatcher()
-        self.dispatcher.result.connect(self.add_result)
+#         self.dispatcher = Dispatcher()
+#         self.dispatcher.result.connect(self.add_result)
 
-    @Slot()
-    def add_result(self, result):
-        if not result:
-            return
-        for res in result:
-            sprint("Dispatcher.add_result()")
-            widget = QTreeWidgetItem()
-            text = "%s\n%s\n%s" % (res.vendor, res.name, res.path)
-            widget.setText(0, text)
-            self.tree.insertTopLevelItem(0, widget)
+#     @Slot()
+#     def add_result(self, result):
+#         if not result:
+#             return
+#         for res in result:
+#             sprint("Dispatcher.add_result()")
+#             widget = QTreeWidgetItem()
+#             text = "%s\n%s\n%s" % (res.vendor, res.name, res.path)
+#             widget.setText(0, text)
+#             self.tree.insertTopLevelItem(0, widget)
 
-    @Slot()
-    def start(self):
-        self.dispatcher.start()
+#     @Slot()
+#     def start(self):
+#         self.dispatcher.start()
 
-    @Slot()
-    def clear(self):
-        self.dispatcher.stop()
-        self.tree.clear()
-        # self.tree = QTreeView()
-        # self.model = QStandardItemModel()
-        # self.tree.setModel(self.model)
-        # self.dispatcher.stop()
+#     @Slot()
+#     def clear(self):
+#         self.dispatcher.stop()
+#         self.tree.clear()
+#         # self.tree = QTreeView()
+#         # self.model = QStandardItemModel()
+#         # self.tree.setModel(self.model)
+#         # self.dispatcher.stop()
 
-    @Slot()
-    def poll(self):
-        self.dispatcher.poll()
+#     @Slot()
+#     def poll(self):
+#         self.dispatcher.poll()
 
 

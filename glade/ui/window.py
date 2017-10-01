@@ -4,6 +4,7 @@ from PySide.QtCore import *
 from PySide.QtGui import *
 
 from glade import api
+from glade.ui.manager import PluginController
 from glade.ui.widgets.search import SearchLineEdit
 from glade.ui.widgets.plugin.list import PluginList
 from glade.ui import utils
@@ -14,6 +15,8 @@ class PluginManagerWindow(QMainWindow):
 
     def __init__(self, *args, **kwargs):
         super(PluginManagerWindow, self).__init__(*args, **kwargs)
+
+        self.controller = PluginController()
 
         layout = QVBoxLayout()
         widget = QWidget()
@@ -69,7 +72,7 @@ class PluginManagerWindow(QMainWindow):
         layout.addWidget(footer_widget)
 
         # Temp
-        self.refresh()
+        # self.refresh()
         self.reload_stylesheet()
 
         self.setMinimumWidth(self.sizeHint().width())
@@ -79,6 +82,14 @@ class PluginManagerWindow(QMainWindow):
         size.setHeight(min(size.height() * 2, 350))
         size.setWidth(size.width() + 30)
         self.resize(size)
+
+    @Slot()
+    def show(self):
+        super(PluginManagerWindow, self).show()
+        self.controller.initialise()
+
+    def closeEvent(self, event):
+        self.controller.teardown()
 
     @Slot()
     def reload_stylesheet(self):
