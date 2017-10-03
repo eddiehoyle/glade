@@ -1,12 +1,11 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
 
-from glade.ui import utils
 
-from . import AbstractPluginWidget
-from . import AbstractPluginBodyWidget
-from . import AbstractPluginHeaderWidget
-from ... import style
+from glade.view.widgets.plugin import AbstractPluginWidget
+from glade.view.widgets.plugin import AbstractPluginBodyWidget
+from glade.view.widgets.plugin import AbstractPluginHeaderWidget
+
 
 class PluginItemWidget(AbstractPluginWidget):
 

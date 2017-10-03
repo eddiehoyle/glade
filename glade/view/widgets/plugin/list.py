@@ -1,8 +1,10 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
+
 import os
-from glade.ui import utils
-from .section import PluginSectionWidget
+
+from glade.view import utils
+from glade.view.widgets.plugin.section import PluginSectionWidget
 
 class PluginList(QFrame):
 

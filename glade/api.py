@@ -1,7 +1,7 @@
 
 import os
 from maya import cmds
-import plugin
+from glade.model.plugin import Plugin
 
 def get_plugin_directories():
     """
@@ -40,8 +40,8 @@ def get_plugins(directory):
     files = get_plugin_files(directory)
     for filename in files:
         try:
-            plugin_obj = plugin.Plugin(filename)
-            plugins.append(plugin_obj)
+            plugin = Plugin(filename, directory)
+            plugins.append(plugin)
         except NameError as exc:
             pass
     return plugins

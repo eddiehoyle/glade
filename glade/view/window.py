@@ -4,19 +4,21 @@ from PySide.QtCore import *
 from PySide.QtGui import *
 
 from glade import api
-from glade.ui.manager import PluginController
-from glade.ui.widgets.search import SearchLineEdit
-from glade.ui.widgets.plugin.list import PluginList
-from glade.ui import utils
+from glade.controller.plugin import PluginController
+from glade.controller.callbacks import CallbackController
+from glade.view.widgets.search import SearchLineEdit
+from glade.view.widgets.plugin.list import PluginList
+from glade.view import utils
 
 
-class PluginManagerWindow(QMainWindow):
+class GladeWindow(QMainWindow):
     """"""
 
     def __init__(self, *args, **kwargs):
-        super(PluginManagerWindow, self).__init__(*args, **kwargs)
+        super(GladeWindow, self).__init__(*args, **kwargs)
 
-        self.controller = PluginController()
+        self.plugin_controller = PluginController()
+        self.callback_controller = CallbackController()
 
         layout = QVBoxLayout()
         widget = QWidget()
@@ -72,7 +74,7 @@ class PluginManagerWindow(QMainWindow):
         layout.addWidget(footer_widget)
 
         # Temp
-        # self.refresh()
+        self.refresh()
         self.reload_stylesheet()
 
         self.setMinimumWidth(self.sizeHint().width())
@@ -85,26 +87,33 @@ class PluginManagerWindow(QMainWindow):
 
     @Slot()
     def show(self):
-        super(PluginManagerWindow, self).show()
-        self.controller.initialise()
+        super(GladeWindow, self).show()
+        self.plugin_controller.start()
+        self.callback_controller.register()
 
     def closeEvent(self, event):
-        self.controller.teardown()
+        self.plugin_controller.stop()
+        self.callback_controller.unregister()
 
     @Slot()
     def reload_stylesheet(self):
         """Temp"""
-
         stylesheet = utils.read_stylesheet("resources:stylesheets/style.qss")
         self.setStyleSheet(stylesheet)
 
     def refresh(self):
         """"""
 
-        plugins = api.get_all_plugins()
-        for plugin in plugins:
-            self.list.add_plugin(plugin)
         self.list.layout().addStretch()
+
+        directories = api.get_plugin_directories()
+        self.plugin_controller.add_directories(directories)
+        self.plugin_controller.plugin_found.connect(self.list.add_plugin)
+
+        # plugins = api.get_all_plugins()
+        # for plugin in plugins:
+        #     self.list.add_plugin(plugin)
+        
 
     @Slot(str)
     def search(self, text):

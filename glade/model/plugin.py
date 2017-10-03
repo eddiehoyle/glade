@@ -3,13 +3,14 @@ from functools import partial
 
 class Plugin(object):
 
-    def __init__(self, name):
+    def __init__(self, name, directory=None):
         super(Plugin, self).__init__()
 
         if not cmds.pluginInfo(name, query=True, registered=True):
             raise NameError("Plugin not registered: %s" % name)
 
         self.name = name
+        self.directory = directory
         self.path = cmds.pluginInfo(self.name, query=True, path=True)
         self.vendor = cmds.pluginInfo(self.name, query=True, vendor=True)
         self.version = cmds.pluginInfo(self.name, query=True, version=True)
@@ -18,10 +19,7 @@ class Plugin(object):
         self.commands = cmds.pluginInfo(self.name, query=True, command=True) or []
 
     def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.name
+        return "<class Plugin(name='{0}')>".format(self.name)
 
     def set_loaded(self, state):
         if state:
