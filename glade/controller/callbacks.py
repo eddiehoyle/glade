@@ -1,3 +1,4 @@
+import os
 from PySide.QtCore import *
 from PySide.QtGui import *
 from maya.OpenMaya import MSceneMessage
@@ -32,13 +33,16 @@ class CallbackController(QObject):
             MSceneMessage.removeCallback(callback_id)
 
     def __plugin_loaded(self, string_array, client_data=None):
-        plugin_name, plugin_directory = string_array
-        self.plugin_loaded.emit(plugin_name, plugin_directory)
+        plugin_path, plugin_name = string_array
+        plugin_directory = os.path.dirname(plugin_path)
+        self.plugin_loaded.emit(plugin_directory, plugin_name)
+        # print "plugin_loaded() :", plugin_directory, plugin_name
         # __plugin_loaded ([u'/Applications/Autodesk/maya2016/Maya.app/Contents/MacOS/plug-ins/AutodeskPacketFile.bundle', u'AutodeskPacketFile'], None) {}
 
-
     def __plugin_unloaded(self, string_array, client_data=None):
-        plugin_name, plugin_directory = string_array
-        self.plugin_unloaded.emit(plugin_name, plugin_directory)
+        plugin_name, plugin_path = string_array
+        plugin_directory = os.path.dirname(plugin_path)
+        self.plugin_unloaded.emit(plugin_directory, plugin_name)
+        # print "plugin_unloaded() :", plugin_directory, plugin_name
         # __plugin_unloaded ([u'AutodeskPacketFile.bundle', u'/Applications/Autodesk/maya2016/Maya.app/Contents/MacOS/plug-ins/AutodeskPacketFile.bundle'], None) {}
 

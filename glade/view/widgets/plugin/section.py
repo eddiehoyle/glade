@@ -37,6 +37,23 @@ class PluginSectionWidget(AbstractPluginWidget):
         self.body_widget.setObjectName("sectionBody")
         self.header_widget.setObjectName("sectionHeader")
 
+        self.plugins = {}
+
+    def plugin_loaded(self, name):
+        """Emit load signals to widget
+        """
+        # print "PluginSectionWidget.plugin_loaded() :", name, self.plugins.keys()
+        widget = self.plugins.get(name)
+        if widget is not None:
+            widget.plugin_loaded()
+
+    def plugin_unloaded(self, name):
+        """"""
+        # print "PluginSectionWidget.plugin_unloaded() :", name
+        widget = self.plugins.get(name)
+        if widget is not None:
+            widget.plugin_unloaded()
+
     @Slot(bool)
     def expand(self, state):
         self.body_widget.setVisible(state)
@@ -46,9 +63,12 @@ class PluginSectionWidget(AbstractPluginWidget):
         self.body_widget.addWidget(widget)
         self.plugin_added.emit(self.body_widget.layout().count())
 
+        self.plugins[plugin.name] = widget
+
     def filter(self, terms):
         self.header_widget.filter(terms)
-        self.body_widget.filter(terms)
+
+
 
 
 class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
@@ -85,17 +105,8 @@ class PluginSectionHeaderWidget(AbstractPluginHeaderWidget):
     def count_updated(self, number):
         self.count_label.setText(str(number))
 
-    def highlight(self, chars):
-
-        new_string = ""
-
-        # Currently applies colors per-character, instead of substring
-        for index, char in enumerate(self.directory):
-            if char in chars:
-                char = "<font color='red'>%s</font>" % char
-            new_string += char
-
-        self.directory_label.setText(new_string)
+    def filter(self, terms):
+        pass
 
     def mouseMoveEvent(self, event):
         super(PluginSectionHeaderWidget, self).mouseMoveEvent(event)

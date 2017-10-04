@@ -43,6 +43,7 @@ def get_plugins(directory):
             plugin = Plugin(filename, directory)
             plugins.append(plugin)
         except NameError as exc:
+            print exc
             pass
     return plugins
 

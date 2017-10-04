@@ -48,7 +48,7 @@ class Worker(QThread):
 
             if self.queue.empty():
                 # sprint("Worker.run() : (%s) sleeping..." % (self.index))
-                time.sleep(0.5)
+                time.sleep(0.1)
                 continue
 
             directory = self.queue.get()
@@ -59,7 +59,6 @@ class Worker(QThread):
                 self.plugin_found.emit(plugin)
 
         # sprint("Worker.run() : (%s) Done!" % (self.index))
-
 
 
 class PluginController(QObject):

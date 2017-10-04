@@ -17,9 +17,6 @@ class GladeWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(GladeWindow, self).__init__(*args, **kwargs)
 
-        self.plugin_controller = PluginController()
-        self.callback_controller = CallbackController()
-
         layout = QVBoxLayout()
         widget = QWidget()
         widget.setLayout(layout)
@@ -42,6 +39,7 @@ class GladeWindow(QMainWindow):
         search_widget.setLayout(search_layout)
 
         self.list = PluginList()
+        search_field.textChanged.connect(self.list.filter)
 
         scroll = QScrollArea()
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -73,27 +71,38 @@ class GladeWindow(QMainWindow):
         layout.addWidget(body_widget)
         layout.addWidget(footer_widget)
 
+        self.setMinimumWidth(self.sizeHint().width())
+
+        self.plugin_control = PluginController()
+        self.plugin_control.plugin_found.connect(self.list.add_plugin)
+        self.callback_control = CallbackController()
+        self.callback_control.plugin_loaded.connect(self.list.plugin_loaded)
+        self.callback_control.plugin_unloaded.connect(self.list.plugin_unloaded)
+
         # Temp
         self.refresh()
         self.reload_stylesheet()
 
-        self.setMinimumWidth(self.sizeHint().width())
-
         # Resize
         size = self.sizeHint()
-        size.setHeight(min(size.height() * 2, 350))
-        size.setWidth(size.width() + 30)
+        size.setHeight(400)
+        size.setWidth(400)
         self.resize(size)
 
     @Slot()
     def show(self):
         super(GladeWindow, self).show()
-        self.plugin_controller.start()
-        self.callback_controller.register()
+        self.plugin_control.start()
+        self.callback_control.register()
 
     def closeEvent(self, event):
-        self.plugin_controller.stop()
-        self.callback_controller.unregister()
+        self.plugin_control.stop()
+        self.callback_control.unregister()
+
+    @Slot(str)
+    def search(self, text):
+        """"""
+        
 
     @Slot()
     def reload_stylesheet(self):
@@ -103,20 +112,6 @@ class GladeWindow(QMainWindow):
 
     def refresh(self):
         """"""
-
-        self.list.layout().addStretch()
-
         directories = api.get_plugin_directories()
-        self.plugin_controller.add_directories(directories)
-        self.plugin_controller.plugin_found.connect(self.list.add_plugin)
-
-        # plugins = api.get_all_plugins()
-        # for plugin in plugins:
-        #     self.list.add_plugin(plugin)
-        
-
-    @Slot(str)
-    def search(self, text):
-        """"""
-
-        print "Searching:", text
+        for directory in directories:
+            self.plugin_control.add_directory(directory)

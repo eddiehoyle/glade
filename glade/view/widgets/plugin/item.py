@@ -36,6 +36,14 @@ class PluginItemWidget(AbstractPluginWidget):
         self.header_widget.setObjectName("itemHeader")
         self.body_widget.setObjectName("itemBody")
 
+    def plugin_loaded(self):
+        # print "PluginItemWidget.plugin_loaded() : %s" % self.plugin.name
+        self.header_widget.load_checkbox.setChecked(True)
+
+    def plugin_unloaded(self):
+        # print "PluginItemWidget.plugin_unloaded() : %s" % self.plugin.name
+        self.header_widget.load_checkbox.setChecked(False)
+
     @Slot(bool)
     def expand(self, state):
         """"""

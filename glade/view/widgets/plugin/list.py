@@ -8,6 +8,9 @@ from glade.view.widgets.plugin.section import PluginSectionWidget
 
 class PluginList(QFrame):
 
+    # plugin_loaded = Signal(str, str)
+    # plugin_unloaded = Signal(str, str)
+
     def __init__(self, parent=None):
         super(PluginList, self).__init__(parent=parent)
 
@@ -16,10 +19,25 @@ class PluginList(QFrame):
 
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(1)
+        layout.addStretch()
 
         self.sections = {}
 
         self.setObjectName("pluginList")
+
+    def plugin_loaded(self, directory, name):
+        """"""
+        section = self.sections.get(directory)
+        # print "PluginList.plugin_loaded() :", directory, name
+        if section is not None:
+            section.plugin_loaded(name)
+
+    def plugin_unloaded(self, directory, name):
+        """"""
+        section = self.sections.get(directory)
+        # print "PluginList.plugin_unloaded() :", directory, name
+        if section is not None:
+            section.plugin_unloaded(name)
 
     def filter(self, terms):
         """"""
@@ -31,7 +49,7 @@ class PluginList(QFrame):
         section = self.sections.get(directory, None)
         if section is None:
             section = PluginSectionWidget(directory, parent=self)
-            self.layout().addWidget(section)
+            self.layout().insertWidget(self.layout().count() - 1, section)
             self.sections[directory] = section
         return section
 
