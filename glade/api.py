@@ -37,22 +37,22 @@ def get_plugins(directory):
     """
 
     plugins = []
-    files = get_plugin_files(directory)
-    for filename in files:
-        try:
-            plugin = Plugin(filename, directory)
-            plugins.append(plugin)
-        except NameError as exc:
-            print exc
-            pass
-    return plugins
+    filenames = get_plugin_files(directory)
+    # for filename in files:
+    #     try:
+    #         plugin = Plugin(filename, directory)
+    #         plugins.append(plugin)
+    #     except NameError as exc:
+    #         print exc
+    #         pass
+    return get_plugin_files(directory)
 
 def get_all_plugins():
     """
     """
 
-    plugins = []
+    plugins = {}
     directories = get_plugin_directories()
     for directory in directories:
-        plugins.extend(get_plugins(directory))
+        plugins[directory] = get_plugins(directory)
     return plugins

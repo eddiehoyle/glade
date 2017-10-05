@@ -63,7 +63,7 @@ class PluginSectionWidget(AbstractPluginWidget):
         self.body_widget.addWidget(widget)
         self.plugin_added.emit(self.body_widget.layout().count())
 
-        self.plugins[plugin.name] = widget
+        self.plugins[plugin] = widget
 
     def filter(self, terms):
         self.header_widget.filter(terms)

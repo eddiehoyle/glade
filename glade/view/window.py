@@ -115,3 +115,7 @@ class GladeWindow(QMainWindow):
         directories = api.get_plugin_directories()
         for directory in directories:
             self.plugin_control.add_directory(directory)
+
+        # filenames = api.get_all_plugins()
+        # for filename in filenames:
+        #     self.list.add_plugin(os.path.split())

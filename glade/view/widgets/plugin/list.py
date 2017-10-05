@@ -53,9 +53,8 @@ class PluginList(QFrame):
             self.sections[directory] = section
         return section
 
-    def add_plugin(self, plugin):
+    def add_plugin(self, directory, plugin):
         """"""
-        directory = os.path.dirname(plugin.path)
         section = self.__add_section(directory)
         return section.add_plugin(plugin)
 

@@ -16,7 +16,7 @@ def sprint(content):
 
 class Worker(QThread):
 
-    plugin_found = Signal(object)
+    plugin_found = Signal(str, str)
 
     def __init__(self, directories, index, parent=None):
         super(Worker, self).__init__(parent=parent)
@@ -56,14 +56,14 @@ class Worker(QThread):
             plugins = api.get_plugins(directory)
             for plugin in plugins:
                 # sprint("Worker.run() : (%s) found: %s" % (self.index, plugin))
-                self.plugin_found.emit(plugin)
+                self.plugin_found.emit(directory, plugin)
 
         # sprint("Worker.run() : (%s) Done!" % (self.index))
 
 
 class PluginController(QObject):
 
-    plugin_found = Signal(object)
+    plugin_found = Signal(str, str)
 
     def __init__(self):
         super(PluginController, self).__init__()

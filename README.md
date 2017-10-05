@@ -1,27 +1,23 @@
-# glade
+# Glade
 Learning QThreads by writing a custom Maya plugin manager.
 
-temp usage:
+# current state
+The original point of this project was to learn how to use QThreads to process tasks in the background while emitting data to the UI thread. I got that working, which has been great, but overall they aren't really needed for what this project is meant to be -- a simple plug-in manager replacement for Maya.
 
+I'm gonna put this on hold for now. Maybe I can come back and tidy this up another day. Maybe, at the least, I can use it as reference for any future projects.
+
+# Example launch code
 ```python
 import sys
+
+# Glade directory
 path = "/Users/eddiehoyle/Code/python/glade"
 if path not in sys.path:
     sys.path.insert(0, path)
 
-import glade;reload(glade)
-from glade.ui import resources;reload(resources)
-from glade.ui.widgets import plugin;reload(plugin)
-from glade.ui.widgets.plugin import item;reload(item)
-from glade.ui.widgets.plugin import section;reload(section)
-from glade.ui.widgets.plugin import list;reload(list)
-from glade.ui import window;reload(window)
-
-win = window.PluginManagerWindow()
+from glade.view import window;reload(window)
+win = window.GladeWindow()
 win.show()
-#win.move(650, -700)
-win.move(160, 200)
-#win.styleSheet()
-
-#from PySide.QtCore import *
 ```
+
+_plug it in, plug it in_

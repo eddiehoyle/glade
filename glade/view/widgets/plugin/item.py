@@ -57,14 +57,14 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
 
         self.plugin = plugin
 
-        self.name_label = QLabel(plugin.name)
+        self.name_label = QLabel(plugin)
         self.name_label.setObjectName("itemPluginName")
 
         self.load_checkbox = QCheckBox("Load")
         self.autoload_checkbox = QCheckBox("Autoload")
 
-        self.load_checkbox.toggled.connect(self.plugin.set_loaded)
-        self.autoload_checkbox.toggled.connect(self.plugin.set_autoload)
+        # self.load_checkbox.toggled.connect(self.plugin.set_loaded)
+        # self.autoload_checkbox.toggled.connect(self.plugin.set_autoload)
 
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -91,9 +91,9 @@ class PluginHeaderWidget(AbstractPluginHeaderWidget):
         self.load_checkbox.blockSignals(True)
         self.autoload_checkbox.blockSignals(True)
 
-        self.name_label.setText(self.plugin.name)
-        self.load_checkbox.setChecked(self.plugin.is_loaded)
-        self.autoload_checkbox.setChecked(self.plugin.is_autoload)
+        self.name_label.setText(self.plugin)
+        # self.load_checkbox.setChecked(self.plugin.is_loaded)
+        # self.autoload_checkbox.setChecked(self.plugin.is_autoload)
         
         self.load_checkbox.blockSignals(False)
         self.autoload_checkbox.blockSignals(False)
@@ -140,7 +140,16 @@ class PluginBodyWidget(AbstractPluginBodyWidget):
         self.layout().addRow(label, widget)
 
     def initialise(self):
-        for key, value in self.plugin.data().iteritems():
+        # for key, value in self.plugin.data().iteritems():
+
+        # temp
+        data = {
+            "Vendor": "version",
+            "Version": "1.0",
+            "Commands": str(["aaa", "bbb", "ccc"]),
+        }
+
+        for key, value in data.iteritems():
             label = QLabel(key)
             widget = QLineEdit()
             widget.setText(value)
