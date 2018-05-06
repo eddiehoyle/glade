@@ -21,6 +21,6 @@ win.show()
 ```
 
 # Screenshot
-![screenshot](screenshot.png)
+![screenshot](screenshot.png|width=500)
 
 _plug it in, plug it in_
